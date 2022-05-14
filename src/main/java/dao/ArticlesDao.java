@@ -1,7 +1,6 @@
 package dao;
 
 import models.Articles;
-import models.Department;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface ArticlesDao {
 
    //Get by ID
 
-    Articles getIdById(int id);
+    Articles getById(int id);
 
     //get all
      List<Articles> getAll();

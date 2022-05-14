@@ -10,7 +10,7 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public void add(Staff staff) {
         try (Connection conn = db.sql2o.open()) {
-            String sql = "INSERT into articles (name,email,phone,rank,staffRole,dept_id) values (:name,:email,:phone,:rank,:staffRole,:dept_id)";
+            String sql = "INSERT into staff (name,email,phone,rank,staffRole,dept_id) values (:name,:email,:phone,:rank,:staffRole,:dept_id)";
             int id = (int) conn.createQuery(sql)
                     .addParameter("name", staff.getName())
                     .addParameter("email", staff.getEmail())
@@ -27,9 +27,9 @@ public class Sql2oStaffDao implements StaffDao {
     }
 
     @Override
-    public Staff getIdById(int id) {
+    public Staff getById(int id) {
         try (Connection con = db.sql2o.open()){
-            String sql = "SELECT * from articles WHERE id=:id ";
+            String sql = "SELECT * from staff WHERE id=:id ";
             return con.createQuery(sql).addParameter("id",id).executeAndFetchFirst(Staff.class);
         }
 
@@ -38,7 +38,7 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public List<Staff> getAll() {
         try (Connection con = db.sql2o.open()){
-            String sql = "SELECT * FROM articles";
+            String sql = "SELECT * FROM staff";
             return con.createQuery(sql).executeAndFetch(Staff.class);
         }
     }
@@ -63,7 +63,7 @@ public class Sql2oStaffDao implements StaffDao {
     public void deleteById(int id) {
         try (Connection con = db.sql2o.open()){
             String sql = "DELETE from staff WHERE id=:id";
-            con.createQuery(sql).executeUpdate();
+            con.createQuery(sql).addParameter("id",id).executeUpdate();
         }
     }
 

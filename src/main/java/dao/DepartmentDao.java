@@ -2,7 +2,6 @@ package dao;
 
 import models.Articles;
 import models.Department;
-import models.Staff;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface DepartmentDao {
     void add(Department staff);
 
     //Get by ID
-    Department getIdById(int id);
+    Department getById(int id);
     List<Department> getAll();
 
     //update

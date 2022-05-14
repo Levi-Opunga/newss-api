@@ -10,7 +10,7 @@ public interface StaffDao {
     void add(Staff staff);
 
     //Get by ID
-    Staff getIdById(int id);
+    Staff getById(int id);
 
     //get all
     List<Staff> getAll();

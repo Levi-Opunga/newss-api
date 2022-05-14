@@ -24,7 +24,7 @@ public class Sql2oArticlesDao implements ArticlesDao {
     }
 
     @Override
-    public Articles getIdById(int id) {
+    public Articles getById(int id) {
         try (Connection con = db.sql2o.open()){
             String sql = "SELECT * from articles WHERE id=:id ";
             return con.createQuery(sql).addParameter("id",id).executeAndFetchFirst(Articles.class);
@@ -48,6 +48,7 @@ public class Sql2oArticlesDao implements ArticlesDao {
                 .addParameter("title", article.getTitle())
                 .addParameter("message", article.getMessage())
                 .addParameter("dept_id", article.getDept_id())
+                .addParameter("id",article.getId())
                 .executeUpdate();
        }
     }
@@ -56,7 +57,9 @@ public class Sql2oArticlesDao implements ArticlesDao {
     public void deleteById(int id) {
         try (Connection con = db.sql2o.open()){
             String sql = "DELETE from articles WHERE id=:id";
-        con.createQuery(sql).executeUpdate();
+        con.createQuery(sql)
+                .addParameter("id",id)
+                .executeUpdate();
         }
 
         }

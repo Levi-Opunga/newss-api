@@ -1,0 +1,22 @@
+[
+  {
+    "title": "First Article",
+    "message": "First Article's message",
+    "dept_id": 1
+  },
+  {
+    "title": "Second Article",
+    "message": "Second Article's message",
+    "dept_id": 2
+  },
+  {
+    "title": "Third Article",
+    "message": "Third Article's message",
+    "dept_id": 2
+  },
+  {
+    "title": "Fourth Article",
+    "message": "Fourth Article's message",
+    "dept_id": 2
+  }
+]

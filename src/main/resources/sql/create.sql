@@ -3,8 +3,8 @@ CREATE DATABASE washington_post;
 CREATE TABLE staff(
   ID  SERIAL PRIMARY KEY,
   Name VARCHAR,
-  email VARCHAR;
-  phone VARCHAR;
+  email VARCHAR,
+  phone VARCHAR,
   Rank VARCHAR,
   staffRoles VARCHAR,
   dept_id int
@@ -18,8 +18,8 @@ CREATE TABLE departments(
 
 CREATE TABLE articles(
  id serial PRIMARY KEY,
- title VARCHAR;
- message VARCHAR;
+ title VARCHAR,
+ message VARCHAR,
 dept_id int
 );
 
