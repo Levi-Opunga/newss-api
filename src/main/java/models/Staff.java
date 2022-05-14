@@ -10,6 +10,8 @@ public class Staff {
     private String rank;
     private String staffRole;
     private int dept_id;
+    private String department;
+
 
     public Staff() {
     }
@@ -82,6 +84,13 @@ public class Staff {
         this.dept_id = dept_id;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
