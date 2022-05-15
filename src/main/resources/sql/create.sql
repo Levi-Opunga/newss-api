@@ -7,7 +7,8 @@ CREATE TABLE staff(
   phone VARCHAR,
   Rank VARCHAR,
   staffRoles VARCHAR,
-  dept_id int
+  dept_id int,
+department VARCHAR
 );
 
 CREATE TABLE departments(
@@ -20,6 +21,7 @@ CREATE TABLE articles(
  id serial PRIMARY KEY,
  title VARCHAR,
  message VARCHAR,
-dept_id int
+ dept_id int,
+ department VARCHAR
 );
 

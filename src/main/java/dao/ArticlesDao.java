@@ -9,6 +9,8 @@ public interface ArticlesDao {
     //Add
    void add(Articles article);
 
+   void addGeneralArticle(Articles article);
+
    //Get by ID
 
     Articles getById(int id);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static spark.Spark.*;
 
@@ -47,11 +48,23 @@ public class App {
         });
 
 // Displaying
+        post("/add-general/article", (req, res) -> {
+            Articles article = gson.fromJson(req.body(), Articles.class);
+            if (article.getDept_id() > 0) {
+                throw new ApiException(404, String.format("To add general article don't add dept_id in raw json or assign dept_id:0"));
+            } else {
+                articlesDao.addGeneralArticle(article);
+                return gson.toJson(article);
+            }
+        });
+
         post("/add-article", (req, res) -> {
             Articles article = gson.fromJson(req.body(), Articles.class);
-            if (departmentDao.getById(article.getDept_id()) == null) {
+            if (article.getDept_id() != 0 && departmentDao.getById(article.getDept_id()) == null) {
                 throw new ApiException(404, String.format("The department ID you have allocated this article does not exist please make sure there is a department with an ID of %s for this to work", article.getDept_id()));
-
+            } else if (article.getDept_id() == 0) {
+                articlesDao.addGeneralArticle(article);
+                return gson.toJson(article);
 
             } else {
                 articlesDao.add(article);
@@ -72,7 +85,7 @@ public class App {
         get("/get-allArticles", (req, res) -> {
             if (articlesDao.getAll().size() == 0) {
 
-                throw new ApiException(404, String.format("Articles is empty"));
+                throw new ApiException(404, String.format("Articles table is empty"));
 
             } else {
                 List<Articles> articleList = articlesDao.getAll();
@@ -129,7 +142,7 @@ public class App {
             }
         });
 
-// Displaying
+// Displaying and adding
         post("/add-Staff", (req, res) -> {
             Staff staff = gson.fromJson(req.body(), Staff.class);
             if (departmentDao.getById(staff.getDept_id()) == null) {
@@ -159,17 +172,25 @@ public class App {
                 return gson.toJson(staffList);
             }
         });
+        get("get-all/general", (req, res) -> {
+            List<Articles> articlesList = articlesDao.getAll()
+                    .stream()
+                    .filter(article -> article.getDept_id() == 0)
+                    .collect(Collectors.toList());
+            return gson.toJson(articlesList);
+        });
 
 // Updating
         patch("/update_staff/:id", (req, res) -> {
             Staff staff = gson.fromJson(req.body(), Staff.class);
             int id = Integer.parseInt(req.params(":id"));
-            if(staffDao.getById(staff.getId())==null){
-                throw new ApiException(404, String.format("The staff member with id:%s doesn't exist thus cant be updated!!",id));
-            }else{
-            staff.setId(id);
-            staffDao.update(staff);
-            return gson.toJson(staff);}
+            if (staffDao.getById(staff.getId()) == null) {
+                throw new ApiException(404, String.format("The staff member with id:%s doesn't exist thus cant be updated!!", id));
+            } else {
+                staff.setId(id);
+                staffDao.update(staff);
+                return gson.toJson(staff);
+            }
         });
 
 
@@ -177,56 +198,86 @@ public class App {
 // deleting
         delete("/delete-department/:id", (req, res) -> {
             int departmentId = Integer.parseInt(req.params(":id"));
-            departmentDao.deleteById(departmentId);
-            return gson.toJson(departmentDao.getAll());
+            if (departmentDao.getById(departmentId) == null) {
+                throw new ApiException(404, String.format("The deparment with id:%s does not exist thus can't be deleted"));
+            } else {
+                departmentDao.deleteById(departmentId);
+                return gson.toJson(departmentDao.getAll());
+            }
         });
 
         delete("/delete-AllDepartments", (req, res) -> {
-            departmentDao.deleteAll();
-            return gson.toJson(departmentDao.getAll());
+            if (departmentDao.getAll().size() == 0) {
+                throw new ApiException(404, String.format("Departments table is already empty please add a department for this to work"));
+            } else {
+                departmentDao.deleteAll();
+                return gson.toJson(departmentDao.getAll());
+            }
         });
 
 // Displaying && Adding
         post("/add-Department", (req, res) -> {
+
             Department department = gson.fromJson(req.body(), Department.class);
             departmentDao.add(department);
             return gson.toJson(department);
         });
 
         get("/get-byDepartmentId/:id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":id"));
-            Department department = departmentDao.getById(id);
-            return gson.toJson(department);
+            if (departmentDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The department with the id:%s does not exist this can't be retrieved", id));
+            } else {
+                Department department = departmentDao.getById(id);
+                return gson.toJson(department);
+            }
         });
 
         get("/get-allDepartments", (req, res) -> {
-
-            List<Department> departmentList = departmentDao.getAll();
-            return gson.toJson(departmentList);
+            if (departmentDao.getAll().size() == 0) {
+                throw new ApiException(404, "The departments table is empty please add a department for this to work");
+            } else {
+                List<Department> departmentList = departmentDao.getAll();
+                return gson.toJson(departmentList);
+            }
         });
 
         get("/get-all/staff/:department-id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":department-id"));
-            List<Staff> staffList = departmentDao.getAllStaff(id);
-            return gson.toJson(staffList);
+            if (departmentDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The department with id:%s does not exist thus cannot have staff allocated", id));
+
+            } else if (departmentDao.getAllStaff(id).size() == 0) {
+                throw new ApiException(404, String.format("This department doesn't have any staff members allocated. Add staff to it by allocating a staff member the dept_id:%s", id));
+            } else {
+                List<Staff> staffList = departmentDao.getAllStaff(id);
+                return gson.toJson(staffList);
+            }
         });
         get("/get-all/articles/:department-id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":department-id"));
-            List<Articles> articlesList = departmentDao.getAllArticles(id);
-            return gson.toJson(articlesList);
+            if (departmentDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The department with id:%s does not exist thus cannot have Articles allocated", id));
+
+            } else if (departmentDao.getAllStaff(id).size() == 0) {
+                throw new ApiException(404, String.format("This department doesn't have any Articles referenced. Add Article to it by allocating an Article the dept_id:%s", id));
+            } else {
+                List<Articles> articlesList = departmentDao.getAllArticles(id);
+                return gson.toJson(articlesList);
+            }
         });
 
 // Updating
         patch("/update_department/:id", (req, res) -> {
-
             Department department = gson.fromJson(req.body(), Department.class);
             int id = Integer.parseInt(req.params(":id"));
-            department.setId(id);
-            departmentDao.update(department);
-            return gson.toJson(department);
+            if (departmentDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The department with the id:%s does not exist thus cant be updated", id));
+            } else {
+                department.setId(id);
+                departmentDao.update(department);
+                return gson.toJson(department);
+            }
         });
 
 /////////////////////filter////////////////////////////
