@@ -2,6 +2,7 @@ package dao;
 
 import models.Articles;
 import models.Department;
+import models.Staff;
 
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface DepartmentDao {
     void deleteAll();
 
   List<Articles>  getAllArticles(int id);
-
+    List<Staff>  getAllStaff(int id);
 }

@@ -7,6 +7,15 @@ public class Articles {
    private String title;
   private String message;
   private int dept_id;
+  String department;
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 
     public Articles(String title, String message, int dept_id) {
         this.title = title;

@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS staff (
   phone VARCHAR,
   rank VARCHAR,
   staffRole VARCHAR,
-  dept_id int
+  dept_id int,
+  department VARCHAR
 );
 
 CREATE TABLE IF NOT EXISTS departments(
@@ -20,6 +21,7 @@ CREATE TABLE IF NOT EXISTS articles(
   id int PRIMARY KEY auto_increment,
   title VARCHAR,
   message VARCHAR,
-  dept_id int
+  dept_id int,
+  department VARCHAR
 );
 

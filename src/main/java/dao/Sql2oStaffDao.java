@@ -1,5 +1,6 @@
 package dao;
 
+import models.Department;
 import models.Staff;
 import org.sql2o.Connection;
 
@@ -9,8 +10,16 @@ public class Sql2oStaffDao implements StaffDao {
 
     @Override
     public void add(Staff staff) {
+        String sql = "INSERT into staff (name,email,phone,rank,staffRole,dept_id) values (:name,:email,:phone,:rank,:staffRole,:dept_id)";
+        String sql2 = "SELECT * from departments WHERE id=:dept_id";
+
         try (Connection conn = db.sql2o.open()) {
-            String sql = "INSERT into staff (name,email,phone,rank,staffRole,dept_id) values (:name,:email,:phone,:rank,:staffRole,:dept_id)";
+/////Gets Department from department table
+            String department =   conn.createQuery(sql2)
+                    .addParameter("dept_id",staff.getDept_id())
+                    .executeAndFetchFirst(Department.class).getName();
+            staff.setDepartment(department);
+
             int id = (int) conn.createQuery(sql)
                     .addParameter("name", staff.getName())
                     .addParameter("email", staff.getEmail())
@@ -21,6 +30,7 @@ public class Sql2oStaffDao implements StaffDao {
                     .executeUpdate()
                     .getKey();
             staff.setId(id);
+
         } catch (Exception e) {
         }
 

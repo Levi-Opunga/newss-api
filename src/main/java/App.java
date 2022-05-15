@@ -1,7 +1,10 @@
 import com.google.gson.Gson;
+import dao.DepartmentDao;
 import dao.Sql2oArticlesDao;
+import dao.Sql2oDepartmentDao;
 import dao.Sql2oStaffDao;
 import models.Articles;
+import models.Department;
 import models.Staff;
 
 import java.util.List;
@@ -12,6 +15,7 @@ public class App {
     public static void main(String[] args) {
         Sql2oArticlesDao articlesDao = new Sql2oArticlesDao();
         Sql2oStaffDao staffDao = new Sql2oStaffDao();
+        Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao();
 ////////////////////For Articles//////////////////////
 // deleting
         delete("/delete-article/:id", (req, res) -> {
@@ -21,7 +25,7 @@ public class App {
             return gson.toJson(articlesDao.getAll());
         });
 
-        delete("/delete-AllArticle",(req, res) ->{
+        delete("/delete-AllArticle", (req, res) -> {
             Gson gson = new Gson();
             articlesDao.deleteAll();
             return gson.toJson(articlesDao.getAll());
@@ -33,10 +37,11 @@ public class App {
             Articles article = gson.fromJson(req.body(), Articles.class);
             articlesDao.add(article);
             System.out.println(articlesDao.getAll().size());
+            System.out.println(article.getDepartment());
             return gson.toJson(article);
         });
 
-        get("/get-byArticleId/:id",(req, res) ->{
+        get("/get-byArticleId/:id", (req, res) -> {
             Gson gson = new Gson();
             int id = Integer.parseInt(req.params(":id"));
             Articles article = articlesDao.getById(id);
@@ -49,9 +54,9 @@ public class App {
             return gson.toJson(articleList);
         });
 // Updating
-        patch("/update_article/:id",(req, res)->{
+        patch("/update_article/:id", (req, res) -> {
             Gson gson = new Gson();
-            Articles article = gson.fromJson(req.body(),Articles.class);
+            Articles article = gson.fromJson(req.body(), Articles.class);
             int id = Integer.parseInt(req.params(":id"));
             article.setId(id);
             articlesDao.update(article);
@@ -81,7 +86,7 @@ public class App {
             return gson.toJson(staffDao.getAll());
         });
 
-        delete("/delete-AllStaff",(req, res) ->{
+        delete("/delete-AllStaff", (req, res) -> {
             Gson gson = new Gson();
             staffDao.deleteAll();
             return gson.toJson(staffDao.getAll());
@@ -95,10 +100,10 @@ public class App {
             return gson.toJson(staff);
         });
 
-        get("/get-byStaffId/:id",(req, res) ->{
+        get("/get-byStaffId/:id", (req, res) -> {
             Gson gson = new Gson();
             int id = Integer.parseInt(req.params(":id"));
-            Staff staff  = staffDao.getById(id);
+            Staff staff = staffDao.getById(id);
             return gson.toJson(staff);
         });
 
@@ -109,9 +114,9 @@ public class App {
         });
 
 // Updating
-        patch("/update_staff/:id",(req, res)->{
+        patch("/update_staff/:id", (req, res) -> {
             Gson gson = new Gson();
-            Staff staff = gson.fromJson(req.body(),Staff.class);
+            Staff staff = gson.fromJson(req.body(), Staff.class);
             int id = Integer.parseInt(req.params(":id"));
             staff.setId(id);
             staffDao.update(staff);
@@ -119,19 +124,66 @@ public class App {
         });
 
 
-
-
-
-
-
-
-
-
-
-
 ////////////////For Department//////////////////////////////////////
+// deleting
+        delete("/delete-department/:id", (req, res) -> {
+            Gson gson = new Gson();
+            int departmentId = Integer.parseInt(req.params(":id"));
+            departmentDao.deleteById(departmentId);
+            return gson.toJson(departmentDao.getAll());
+        });
 
+        delete("/delete-AllDepartments", (req, res) -> {
+            Gson gson = new Gson();
+            departmentDao.deleteAll();
+            return gson.toJson(departmentDao.getAll());
+        });
 
+// Displaying && Adding
+        post("/add-Department", (req, res) -> {
+            Gson gson = new Gson();
+            Department department = gson.fromJson(req.body(), Department.class);
+            departmentDao.add(department);
+            return gson.toJson(department);
+        });
+
+        get("/get-byDepartmentId/:id", (req, res) -> {
+            Gson gson = new Gson();
+            int id = Integer.parseInt(req.params(":id"));
+            Department department = departmentDao.getById(id);
+            return gson.toJson(department);
+        });
+
+        get("/get-allDepartments", (req, res) -> {
+            Gson gson = new Gson();
+            List<Department> departmentList = departmentDao.getAll();
+            return gson.toJson(departmentList);
+        });
+
+        get("/get-all/staff/:department-id", (req, res) -> {
+            Gson gson = new Gson();
+            int id = Integer.parseInt(req.params(":department-id"));
+            List<Staff> staffList = departmentDao.getAllStaff(id);
+            return gson.toJson(staffList);
+        });
+        get("/get-all/articles/:department-id",(req, res) ->{
+            Gson gson = new Gson();
+            int id = Integer.parseInt(req.params(":department-id"));
+            List<Articles> articlesList = departmentDao.getAllArticles(id);
+            return gson.toJson(articlesList);
+        });
+
+// Updating
+        patch("/update_department/:id", (req, res) -> {
+            Gson gson = new Gson();
+            Department department = gson.fromJson(req.body(), Department.class);
+            int id = Integer.parseInt(req.params(":id"));
+            department.setId(id);
+            departmentDao.update(department);
+            return gson.toJson(department);
+        });
+
+/////////////////////filter////////////////////////////
 
         after((req, res) -> {
             res.type("application/json");

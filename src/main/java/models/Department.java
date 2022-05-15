@@ -6,7 +6,7 @@ public class Department {
    private int id;
    private String name ;
    private  String description;
-   private String[] employees;
+   //private String[] employees;
 
    public Department(String name, String description) {
       this.name = name;
@@ -37,13 +37,13 @@ public class Department {
       this.description = description;
    }
 
-   public String[] getEmployees() {
-      return employees;
-   }
+   //public String[] getEmployees() {
+ //     return employees;
+  // }
 
-   public void setEmployees(String[] employees) {
-      this.employees = employees;
-   }
+  // public void setEmployees(String[] employees) {
+  //    this.employees = employees;
+//   }
 
    @Override
    public boolean equals(Object o) {
