@@ -10,7 +10,7 @@ public class Sql2oStaffDao implements StaffDao {
 
     @Override
     public void add(Staff staff) {
-        String sql = "INSERT into staff (name,email,phone,rank,staffRole,dept_id) values (:name,:email,:phone,:rank,:staffRole,:dept_id)";
+        String sql = "INSERT into staff (name,email,phone,rank,staffRole,dept_id,department) values (:name,:email,:phone,:rank,:staffRole,:dept_id,:department)";
         String sql2 = "SELECT * from departments WHERE id=:dept_id";
 
         try (Connection conn = db.sql2o.open()) {
@@ -27,6 +27,7 @@ public class Sql2oStaffDao implements StaffDao {
                     .addParameter("rank", staff.getRank())
                     .addParameter("staffRole", staff.getStaffRole())
                     .addParameter("dept_id", staff.getDept_id())
+                    .addParameter("department",staff.getDepartment())
                     .executeUpdate()
                     .getKey();
             staff.setId(id);

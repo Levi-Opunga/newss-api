@@ -22,7 +22,6 @@ public class App {
         Sql2oStaffDao staffDao = new Sql2oStaffDao();
         Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao();
         Gson gson = new Gson();
-        //   List<Integer> departmentNumbers = new ArrayList<>();
 
 
 ////////////////////For Articles//////////////////////

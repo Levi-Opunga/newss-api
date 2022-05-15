@@ -10,7 +10,7 @@ public class Staff {
     private String rank;
     private String staffRole;
     private int dept_id;
-    private String department;
+     String department;
 
 
     public Staff() {
@@ -23,6 +23,7 @@ public class Staff {
         this.rank = rank;
         this.staffRole = staffRole;
         this.dept_id = dept_id;
+        department = "";
     }
 
 
