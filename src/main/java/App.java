@@ -50,7 +50,7 @@ public class App {
         post("/add-article", (req, res) -> {
             Articles article = gson.fromJson(req.body(), Articles.class);
             if (departmentDao.getById(article.getDept_id()) == null) {
-                throw new ApiException(404, String.format("The department ID you have allocated this article does not exist please make sure there is a department with an ID of '%s'", article.getDept_id()));
+                throw new ApiException(404, String.format("The department ID you have allocated this article does not exist please make sure there is a department with an ID of %s for this to work", article.getDept_id()));
 
 
             } else {
@@ -70,13 +70,14 @@ public class App {
         });
 
         get("/get-allArticles", (req, res) -> {
-if(articlesDao.getAll().size()==0){
+            if (articlesDao.getAll().size() == 0) {
 
-    throw new ApiException(404, String.format("Articles is empty"));
+                throw new ApiException(404, String.format("Articles is empty"));
 
-}else{
-            List<Articles> articleList = articlesDao.getAll();
-            return gson.toJson(articleList);}
+            } else {
+                List<Articles> articleList = articlesDao.getAll();
+                return gson.toJson(articleList);
+            }
         });
 // Updating
         patch("/update_article/:id", (req, res) -> {
@@ -108,48 +109,67 @@ if(articlesDao.getAll().size()==0){
 
 ///////////////// For Staff//////////////////////////////////////////
         // deleting
-        delete("/delete-staff/:id", (req, res) -> {
 
+        delete("/delete-staff/:id", (req, res) -> {
             int staffId = Integer.parseInt(req.params(":id"));
-            staffDao.deleteById(staffId);
-            return gson.toJson(staffDao.getAll());
+            if (staffDao.getById(staffId) == null) {
+                throw new ApiException(404, String.format("The staff member id:%s does not exist this cant be deleted", staffId));
+            } else {
+                staffDao.deleteById(staffId);
+                return gson.toJson(staffDao.getAll());
+            }
         });
 
         delete("/delete-AllStaff", (req, res) -> {
-
-            staffDao.deleteAll();
-            return gson.toJson(staffDao.getAll());
+            if (staffDao.getAll().size() == 0) {
+                throw new ApiException(404, String.format("Staff is already empty, cant delete all"));
+            } else {
+                staffDao.deleteAll();
+                return gson.toJson(staffDao.getAll());
+            }
         });
 
 // Displaying
         post("/add-Staff", (req, res) -> {
-
             Staff staff = gson.fromJson(req.body(), Staff.class);
-            staffDao.add(staff);
-            return gson.toJson(staff);
+            if (departmentDao.getById(staff.getDept_id()) == null) {
+                throw new ApiException(404, String.format("The department ID you have allocated this Staff member does not exist please make sure there is a department with an ID of %s for this to work", staff.getDept_id()));
+            } else {
+                staffDao.add(staff);
+                return gson.toJson(staff);
+            }
         });
 
         get("/get-byStaffId/:id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":id"));
-            Staff staff = staffDao.getById(id);
-            return gson.toJson(staff);
+            if (staffDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The staff member with id:%s does not exist thus cant be retrieved", id));
+            } else {
+
+                Staff staff = staffDao.getById(id);
+                return gson.toJson(staff);
+            }
         });
 
         get("/get-allStaff", (req, res) -> {
-
-            List<Staff> staffList = staffDao.getAll();
-            return gson.toJson(staffList);
+            if (staffDao.getAll().size() == 0) {
+                throw new ApiException(404, String.format("Staff table is empty please add for this to work"));
+            } else {
+                List<Staff> staffList = staffDao.getAll();
+                return gson.toJson(staffList);
+            }
         });
 
 // Updating
         patch("/update_staff/:id", (req, res) -> {
-
             Staff staff = gson.fromJson(req.body(), Staff.class);
             int id = Integer.parseInt(req.params(":id"));
+            if(staffDao.getById(staff.getId())==null){
+                throw new ApiException(404, String.format("The staff member with id:%s doesn't exist thus cant be updated!!",id));
+            }else{
             staff.setId(id);
             staffDao.update(staff);
-            return gson.toJson(staff);
+            return gson.toJson(staff);}
         });
 
 
