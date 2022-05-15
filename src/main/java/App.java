@@ -21,57 +21,75 @@ public class App {
         Sql2oStaffDao staffDao = new Sql2oStaffDao();
         Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao();
         Gson gson = new Gson();
-        List<Integer> departmentNumbers = new ArrayList<>();
+        //   List<Integer> departmentNumbers = new ArrayList<>();
+
 
 ////////////////////For Articles//////////////////////
 // deleting
         delete("/delete-article/:id", (req, res) -> {
 
             int Articles_id = Integer.parseInt(req.params(":id"));
-            if (articlesDao.getById(Articles_id)== null){
+            if (articlesDao.getById(Articles_id) == null) {
                 throw new ApiException(404, String.format("The Article with an ID of %s does not exist you cant delete it", Articles_id));
-            }else{
-            articlesDao.deleteById(Articles_id);
-            return gson.toJson(articlesDao.getAll());}
+            } else {
+                articlesDao.deleteById(Articles_id);
+                return gson.toJson(articlesDao.getAll());
+            }
         });
 
         delete("/delete-AllArticle", (req, res) -> {
-if()
-            articlesDao.deleteAll();
-            return gson.toJson(articlesDao.getAll());
+            if (articlesDao.getAll().size() == 0) {
+                throw new ApiException(404, String.format("Articles is already empty"));
+            } else {
+                articlesDao.deleteAll();
+                return gson.toJson(articlesDao.getAll());
+            }
         });
 
 // Displaying
         post("/add-article", (req, res) -> {
             Articles article = gson.fromJson(req.body(), Articles.class);
-            if (departmentNumbers.contains(article.getDept_id())) {
+            if (departmentDao.getById(article.getDept_id()) == null) {
+                throw new ApiException(404, String.format("The department ID you have allocated this article does not exist please make sure there is a department with an ID of '%s'", article.getDept_id()));
+
+
+            } else {
                 articlesDao.add(article);
                 return gson.toJson(article);
-            } else {
-                throw new ApiException(404, String.format("The department ID you have allocated this article does not exist please make sure there is a department with an ID of '%s'", article.getDept_id()));
             }
         });
 
         get("/get-byArticleId/:id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":id"));
-            Articles article = articlesDao.getById(id);
-            return gson.toJson(article);
+            if (articlesDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The article with id %s does not exist can't be retrieved", id));
+            } else {
+                Articles article = articlesDao.getById(id);
+                return gson.toJson(article);
+            }
         });
 
         get("/get-allArticles", (req, res) -> {
+if(articlesDao.getAll().size()==0){
 
+    throw new ApiException(404, String.format("Articles is empty"));
+
+}else{
             List<Articles> articleList = articlesDao.getAll();
-            return gson.toJson(articleList);
+            return gson.toJson(articleList);}
         });
 // Updating
         patch("/update_article/:id", (req, res) -> {
-
             Articles article = gson.fromJson(req.body(), Articles.class);
             int id = Integer.parseInt(req.params(":id"));
-            article.setId(id);
-            articlesDao.update(article);
-            return gson.toJson(article);
+            if (articlesDao.getById(id) == null) {
+                throw new ApiException(404, String.format("The article with id %s does not exist thus can't update", id));
+
+            } else {
+                article.setId(id);
+                articlesDao.update(article);
+                return gson.toJson(article);
+            }
         });
 
 //
@@ -139,13 +157,11 @@ if()
 // deleting
         delete("/delete-department/:id", (req, res) -> {
             int departmentId = Integer.parseInt(req.params(":id"));
-            departmentNumbers.remove(((Integer) departmentId));
             departmentDao.deleteById(departmentId);
             return gson.toJson(departmentDao.getAll());
         });
 
         delete("/delete-AllDepartments", (req, res) -> {
-            departmentNumbers.clear();
             departmentDao.deleteAll();
             return gson.toJson(departmentDao.getAll());
         });
@@ -154,7 +170,6 @@ if()
         post("/add-Department", (req, res) -> {
             Department department = gson.fromJson(req.body(), Department.class);
             departmentDao.add(department);
-            departmentNumbers.add(department.getId());
             return gson.toJson(department);
         });
 
