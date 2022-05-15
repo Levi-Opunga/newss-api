@@ -5,7 +5,7 @@ database.It is able to retrieve new articles on the basis of GENERAL news or DEP
 to enforce the one-to-many relationship between the articles and department.It also does the same for Staff and
 Department.This prevents entry of non-corresponding values into tables throwing the corresponding relevant exception
 messages as retrieve data to help resolve errors.
-
+description
 ### <span style="color:red">Note:</span>
 
 #### For easy testing of endpoints it is much easier to use the h2 persistent database because to delete and reset database completely delete the 'newss-Api.db' file in the home directory.
@@ -76,6 +76,7 @@ CREATE TABLE articles(
 8. Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to
    the h2 database
 9. If you do not fork the already created postman collection make sure to enter and label yours correctly to avoid errors because of extra spaces or missing characters 
+10. You can use the samples in the `sample jsons` folder to make testing faster
 
 ## Some sample endpoint responses using the Articles and Staff Objects
 
