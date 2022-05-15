@@ -15,7 +15,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     public void add(Department department) {
         try (Connection conn = sql2o.open()) {
             String sql = "INSERT into departments (name,description) values (:name,:description)";
-            int id = (int) conn.createQuery(sql)
+            int id = (int) conn.createQuery(sql,true)
                     .addParameter("name", department.getName())
                     .addParameter("description", department.getDescription())
                     .executeUpdate()

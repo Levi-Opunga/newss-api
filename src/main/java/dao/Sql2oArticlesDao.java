@@ -41,7 +41,7 @@ public class Sql2oArticlesDao implements ArticlesDao {
         article.setDept_id(0);
         String sql = "INSERT into articles (title,message,dept_id,department) values (:title,:message,:dept_id,:department);";
         try (Connection con = sql2o.open()) {
-            int id = (int) con.createQuery(sql)
+            int id = (int) con.createQuery(sql,true)
                     .addParameter("title", article.getTitle())
                     .addParameter("message", article.getMessage())
                     .addParameter("dept_id", article.getDept_id())

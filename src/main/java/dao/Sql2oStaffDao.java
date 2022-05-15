@@ -20,7 +20,7 @@ public class Sql2oStaffDao implements StaffDao {
                     .executeAndFetchFirst(Department.class).getName();
             staff.setDepartment(department);
 
-            int id = (int) conn.createQuery(sql)
+            int id = (int) conn.createQuery(sql,true)
                     .addParameter("name", staff.getName())
                     .addParameter("email", staff.getEmail())
                     .addParameter("phone", staff.getName())
