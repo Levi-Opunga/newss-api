@@ -121,8 +121,8 @@ public class App {
 
 
 ///////////////// For Staff//////////////////////////////////////////
-        // deleting
 
+        // deleting
         delete("/delete-staff/:id", (req, res) -> {
             int staffId = Integer.parseInt(req.params(":id"));
             if (staffDao.getById(staffId) == null) {
@@ -280,7 +280,7 @@ public class App {
             }
         });
 
-/////////////////////filter////////////////////////////
+////////////////////////filter///////////////////////////////
 
         exception(ApiException.class, (exception, req, res) -> {
             ApiException err = exception;
