@@ -10,7 +10,7 @@ description
 
 #### For easy testing of endpoints it is much easier to use the h2 persistent database because it is faster to delete and recreate rather than reset database completely if need be in postgres. Delete the 'newss-Api.db' file in the home directory to achieve this.
 
-#### Uncomment the following the h2 line and comment the postgres one.
+#### Uncomment or Comment out the h2 or postgres Sql2o line depending on which database you want to use for testing.
 
 To use the postgres database run the create.sql script in the `src/main/resources/sql` folder in the project directory
 or run the following:
@@ -43,8 +43,8 @@ CREATE TABLE articles(
  department VARCHAR
 );
 ````
-Note the database name is `washington_post`
-#### <span style="color:red"> Make sure you enter the correct username ane password in the `db` class inside the `dao` package</span>
+Note the database name is `washington_post` if using the postgres database
+#### <span style="color:red">Make sure you enter the correct username and password in the `db` class inside the `dao` package when using postgres</span>
 
 ## <span style="color:Green"> Prerequisites</span>
 
