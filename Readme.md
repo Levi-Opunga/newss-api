@@ -15,7 +15,7 @@ description
 To use the postgres database run the create.sql script in the `src/main/resources/sql` folder in the project directory
 or run the following:
 
-````roomsql
+````sql
 CREATE DATABASE washington_post;
 \c washington_post;
 CREATE TABLE staff(
