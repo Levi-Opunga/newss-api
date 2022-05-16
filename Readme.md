@@ -15,7 +15,7 @@ description
 To use the postgres database run the create.sql script in the `src/main/resources/sql` folder in the project directory
 or run the following:
 
-````
+````sql
 CREATE DATABASE washington_post;
 \c washington_post;
 CREATE TABLE staff(
@@ -85,7 +85,7 @@ Note the database name is `washington_post`
 
 - Entry
 
-```
+```json
 {
   "title": "First Article",
   "message": "First Article's message"
@@ -94,7 +94,7 @@ Note the database name is `washington_post`
 
 Response
 
-```
+```json
 {
     "id": 1,
     "title": "First Article",
@@ -108,7 +108,7 @@ Response
 
 - Entry
 
-```
+```json
 {
     "title": "Second Article",
     "message": "Second Article's message",
@@ -118,7 +118,7 @@ Response
 
 - Response if department with id does not exist
 
-```
+```json
 {
     "errorMessage": "The department ID you have allocated this article does not exist please make sure there is a department with an ID of 2 for this to work",
     "status": 404
@@ -127,7 +127,7 @@ Response
 
 - Response if department exists
 
-```
+```json
 {
     "id": 2,
     "title": "Second Article",
@@ -141,7 +141,7 @@ Response
 
 - Response
 
-```
+```json
 [
     {
         "id": 1,
@@ -171,7 +171,7 @@ Response
 
 - If article does not Exist
 
-````
+````json
 {
     "errorMessage": "The Article with an ID of 78 does not exist you cant delete it",
     "status": 404
@@ -182,7 +182,7 @@ Response
 - If it Exists.
 - Example at id=2,deletes entry and gets a list off all articles without deleted one to confirm deletion.
 
-```
+```json
 [
     {
         "id": 1,
@@ -202,14 +202,14 @@ Response
 ```
 ### Get by staff by id 
 - If staff member with id:4 doesn't exist
-```
+```json
 {
     "errorMessage": "The staff member with id:4 does not exist thus cant be retrieved",
     "status": 404
 }
 ```
 - If staff member with id:4 exists
-``` 
+```json
 {
     "id": 4,
     "name": "Fourth Staff Member",
@@ -217,18 +217,18 @@ Response
     "phone": "Fourth Staff Member",
     "rank": "Personal Assistant",
     "staffRole": "Assists Manager",
-    "dept_id": 1
-    "department": "Public Relations Department",
+    "dept_id": 1,
+    "department": "Public Relations Department"
 
 }
 ```
 ### Delete all Staff
 - If staff table has entries, it deletes and return an empty array
-```
+```json
 []
 ```
 - If staff table is already empty
-```   
+```json
 {
     "errorMessage": "Staff is already empty, cant delete all",
     "status": 404
@@ -242,7 +242,7 @@ Response
 
 - Staff retrieval error
 
-```
+```json
 {
     "errorMessage": "The department with id:23 does not exist thus cannot have staff allocated",
     "status": 404
@@ -251,7 +251,7 @@ Response
 
 - Article retrieval error
 
-```
+```json
 {
     "errorMessage": "The department with id:23 does not exist thus cannot have Articles allocated",
     "status": 404
@@ -262,7 +262,7 @@ Response
 
 - But with no staff assigned
 
-```
+```json
 {
     "errorMessage": "This department doesn't have any staff members allocated. Add staff to it by allocating a staff member the dept_id:7",
     "status": 404
@@ -271,7 +271,7 @@ Response
 
 - With staff assigned
 
-```
+```json
 [
     {
         "id": 2,
@@ -280,7 +280,7 @@ Response
         "phone": "First Staff Member",
         "rank": "Video Editor",
         "staffRole": "Edits videos",
-        "dept_id": 2
+        "dept_id": 2,
         "department": "Finance Department"
 
     },
@@ -291,7 +291,7 @@ Response
         "phone": "Third Staff Member",
         "rank": "Secretary",
         "staffRole": "Files office papers",
-        "dept_id": 2 
+        "dept_id": 2, 
         "department": "Finance Department"
 
     }
