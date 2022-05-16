@@ -60,11 +60,11 @@ public class Articles {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Articles articles = (Articles) o;
-        return id == articles.id && dept_id == articles.dept_id && title.equals(articles.title) && message.equals(articles.message);
+        return dept_id == articles.dept_id && title.equals(articles.title) && message.equals(articles.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, message, dept_id);
+        return Objects.hash(title, message, dept_id);
     }
 }

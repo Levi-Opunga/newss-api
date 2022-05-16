@@ -8,7 +8,7 @@ messages as retrieve data to help resolve errors.
 description
 ### <span style="color:red">Note:</span>
 
-#### For easy testing of endpoints it is much easier to use the h2 persistent database because to delete and reset database completely delete the 'newss-Api.db' file in the home directory.
+#### For easy testing of endpoints it is much easier to use the h2 persistent database because it is faster to delete and recreate rather than reset database completely if need be in postgres. Delete the 'newss-Api.db' file in the home directory to achieve this.
 
 #### Uncomment the following the h2 line and comment the postgres one.
 
@@ -43,7 +43,8 @@ CREATE TABLE articles(
  department VARCHAR
 );
 ````
-#### <span style="color:red"> Make sure you enter the correct username ane password </span>
+Note the database name is `washington_post`
+#### <span style="color:red"> Make sure you enter the correct username ane password in the `db` class inside the `dao` package</span>
 
 ## <span style="color:Green"> Prerequisites</span>
 
@@ -76,7 +77,7 @@ CREATE TABLE articles(
 8. Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to
    the h2 database
 9. If you do not fork the already created postman collection make sure to enter and label yours correctly to avoid errors because of extra spaces or missing characters 
-10. You can use the samples in the `sample jsons` folder to make testing faster
+10. You can use the sample data in the `sample jsons` folder to make testing faster
 
 ## Some sample endpoint responses using the Articles and Staff Objects
 

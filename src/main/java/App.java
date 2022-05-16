@@ -183,7 +183,7 @@ public class App {
         patch("/update_staff/:id", (req, res) -> {
             Staff staff = gson.fromJson(req.body(), Staff.class);
             int id = Integer.parseInt(req.params(":id"));
-            if (staffDao.getById(staff.getId()) == null) {
+            if (staffDao.getById(id) == null) {
                 throw new ApiException(404, String.format("The staff member with id:%s doesn't exist thus cant be updated!!", id));
             } else {
                 staff.setId(id);

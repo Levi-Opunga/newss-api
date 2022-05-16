@@ -23,7 +23,6 @@ public class Staff {
         this.rank = rank;
         this.staffRole = staffRole;
         this.dept_id = dept_id;
-        department = "";
     }
 
 
@@ -92,16 +91,17 @@ public class Staff {
     public void setDepartment(String department) {
         this.department = department;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Staff staff = (Staff) o;
-        return id == staff.id && dept_id == staff.dept_id && name.equals(staff.name) && email.equals(staff.email) && phone.equals(staff.phone) && rank.equals(staff.rank) && staffRole.equals(staff.staffRole);
+        return id == staff.id && dept_id == staff.dept_id && name.equals(staff.name) && email.equals(staff.email) && phone.equals(staff.phone) && rank.equals(staff.rank) && staffRole.equals(staff.staffRole) && department.equals(staff.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, phone, rank, staffRole, dept_id);
+        return Objects.hash(id, name, email, phone, rank, staffRole, dept_id, department);
     }
 }
