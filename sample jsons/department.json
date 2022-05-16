@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Printing Department",
+    "description": "Handles all the printing work in the company"
+  },
+  {
+    "name": "Finance Department",
+    "description": "Handles all the Financial work in the company"
+  },
+  {
+    "name": "Public Relations Department",
+    "description": "Handles all the human resources issues in the company and the company's public image"
+  },
+  {
+    "name": "Marketing Department",
+    "description": "Handles all the Marketing and advertising work in the company"
+  }
+]

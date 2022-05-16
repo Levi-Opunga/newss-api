@@ -1,0 +1,34 @@
+[
+  {
+    "name": "First Staff Member",
+    "email": "First@email.com",
+    "phone": "0744556667",
+    "rank": "Video Editor",
+    "staffRole": "Edits videos",
+    "dept_id": 1
+  },
+  {
+    "name": "Second Staff Member",
+    "email": "Second@email.com",
+    "phone": "071111111111",
+    "rank": "Sound Engineer",
+    "staffRole": "Edits Audios",
+    "dept_id": 2
+  },
+  {
+    "name": "Third Staff Member",
+    "email": "Third@email.com",
+    "phone": "073333333333",
+    "rank": "Secretary",
+    "staffRole": "Files office papers",
+    "dept_id": 2
+  },
+  {
+    "name": "Fourth Staff Member",
+    "email": "Fourth@email.com",
+    "phone": "07444454555",
+    "rank": "Personal Assistant",
+    "staffRole": "Assists Manager",
+    "dept_id": 1
+  }
+]
