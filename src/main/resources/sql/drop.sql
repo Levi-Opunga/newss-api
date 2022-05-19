@@ -1,0 +1,1 @@
+DROP DATABASE  washington_post;
